@@ -1,3 +1,3 @@
 # fortiapi
 
-Python Inetrface to Fortnet API for Fortigates
+Python Interface to Fortnet API for Fortigates
