@@ -1,12 +1,18 @@
+import os
 import csv
-import pyfortiapi
+import pyforti
+import credendials
 
-device = pyfortiapi.FortiGate(ipaddr="192.168.173.75",
-                                username="admin",
-                                password="admin123")
+device = pyforti.FortiGate(ipaddr=credendials.fgt,
+                                username=credendials.un,
+                                password=credendials.pw)
+path=os.getcwd()
 
+file='objects.csv'
+myobjects=(path+'/'+file)
 
-with open('/home/andy/Entwicklung/Python/fortinet/objects.csv', 'r') as f:
+os.path.join(path,path,file)
+with open(myobjects, 'r') as f:
     reader = csv.reader(f, delimiter=',', quoting=csv.QUOTE_NONE)
     
     for row in reader:
@@ -36,8 +42,12 @@ with open('/home/andy/Entwicklung/Python/fortinet/objects.csv', 'r') as f:
                 print ("Address_group: "+name+" konnte nicht angelegt werden")
         elif row[0]=='interface':
             del row[0]
+            name=row[0]
             print ("Interface",row)
-            device.
+            del row[0]
+            #device.update_system_interface(name,row)
+            rc=device.get_interface(name)
+            print (rc)
             
         else:
              print ("Unkown Object",row)
