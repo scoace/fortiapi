@@ -68,7 +68,7 @@ with open(myobjects, 'r') as f:
             rc=device.update_system_interface(name,mydict)
             print (rc)
             name="port3"
-            rc=device.get_interface(filters="port3")
+            rc=device.get_interface("port3")
             print (rc)
             
         else:

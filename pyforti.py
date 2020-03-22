@@ -695,12 +695,12 @@ class FortiGate:
         :return: JSON data for all objects in scope of request, nested in a list.
         """
 
-        api_url = self.urlbase + "api/v2/monitor/system/interface/"
+        api_url = self.urlbase + "api/v2/cmdb/system/interface/"
         
         if specific:
             api_url += str(specific)
         elif filters:
-            api_url += "?interface_name=" + filters
+            api_url += "?filters" + filters
         results = self.get(api_url)
         return results
 
