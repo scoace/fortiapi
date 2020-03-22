@@ -1,7 +1,21 @@
 import os
 import csv
+import socket
 import pyforti
 import credendials
+
+
+def cidr_to_netmask(cidr):
+    network, net_bits = cidr.split('/')
+    host_bits = 32 - int(net_bits)
+    netmask = socket.inet_ntoa(struct.pack('!I', (1 << 32) - (1 << host_bits)))
+    return network, netmask
+
+def netmask_to_cidr(netmask):
+    return (sum([bin(int(x)).count('1') for x in netmask.split('.')]))
+
+
+
 
 device = pyforti.FortiGate(ipaddr=credendials.fgt,
                                 username=credendials.un,
@@ -33,6 +47,7 @@ with open(myobjects, 'r') as f:
                 print ("Route konnte nicht angelegt werden")
             
         elif row[0]=="address_group":
+            
             del row[0]
             print ("Group",row)
             name=row[0]
@@ -41,15 +56,24 @@ with open(myobjects, 'r') as f:
             if (rc!=200):
                 print ("Address_group: "+name+" konnte nicht angelegt werden")
         elif row[0]=='interface':
+            rc=device.get_interface()
+            print (rc)
             del row[0]
             name=row[0]
-            print ("Interface",row)
             del row[0]
-            #device.update_system_interface(name,row)
-            rc=device.get_interface(name)
+            ip,netmask=row[0].split()
+            cidr=netmask_to_cidr(netmask)
+            mydict={'ip':ip+'/'+str(cidr)}
+            
+            rc=device.update_system_interface(name,mydict)
+            print (rc)
+            name="port3"
+            rc=device.get_interface(filters="port3")
             print (rc)
             
         else:
              print ("Unkown Object",row)
 rc=device.get_firewall_address("test1")
 print(rc)
+rc=device.get_dhcp_server()
+print (rc)

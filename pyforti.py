@@ -688,14 +688,15 @@ class FortiGate:
         """
         Get interfaces
 
-        :param none 
+        :param specific: If provided, a specific object will be returned. 
+        :param filters: If provided, the raw filter is appended to the API call.
         :return: JSON data for all objects in scope of request, nested in a list.
         """
 
         api_url = self.urlbase + "api/v2/monitor/system/interface/"
         
         if specific:
-            api_url += specific
+            api_url += str(specific)
         elif filters:
             api_url += "?interface_name=" + filters
         results = self.get(api_url)
@@ -713,10 +714,10 @@ class FortiGate:
         if not self.does_exist(api_url):
             logging.error('Requested Interface '+interface_name+' does not exist in Firewall config.')
             return 404
-        result = self.put(api_url, dict_of_attributes)
-        return result
+        results = self.put(api_url, repr(dict_of_attributes))
+        return results
 
-    def get_dhcp_server(self):
+    def get_dhcp_server(self,specific=False,filters=False):
 
         """
         Get DHCP Servers
@@ -725,8 +726,13 @@ class FortiGate:
         :return: JSON data for all objects in scope of request, nested in a list.
         """
 
-        api_url = self.urlbase + "api/v2/monitor/system.dhcp/server"
-        
+        api_url = self.urlbase + "api/v2/cmdb/system.dhcp/server"
+        if specific:
+            api_url += str(specific)
+        elif filters:
+            api_url += "?interface_name=" + filters
+        results = self.get(api_url)
+        return results
         
         results = self.get(api_url)
         return results
