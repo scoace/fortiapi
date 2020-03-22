@@ -1,4 +1,6 @@
 #!/usr/bin/env Python
+
+# Stolen from
 __author__ = "James Simpson"
 __copyright__ = "Copyright 2017, James Simpson"
 __license__ = "MIT"
@@ -734,5 +736,4 @@ class FortiGate:
         results = self.get(api_url)
         return results
         
-        results = self.get(api_url)
-        return results
+        
