@@ -1,6 +1,6 @@
 # fortiapi
 
-Python Interface to Fortnet API for Fortigates
+Python Interface to Fortinet API for Fortigates
 
 Create a file credendials.py in the same folder with
 
