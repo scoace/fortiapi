@@ -70,7 +70,30 @@ with open(myobjects, 'r') as f:
             name="port3"
             rc=device.get_interface("port3")
             print (rc)
-            
+        elif row[0]=="policy":
+            del row[0]
+            id=row[0]
+            srcint=row[1]
+            dstint=row[2]
+            src=row[3]
+            dst=row[4]
+            action=row[5]
+            payload = {'policyid': id,
+                        'name': 'Test Policy',
+                        'srcintf': [{'name': srcint}],
+                        'dstintf': [{'name': dstint}],
+                        'srcaddr': [{'name': src}],
+                        'dstaddr': [{'name': dst}],
+                        'action': action,
+                        'status': 'enable',
+                        'schedule': 'always',
+                        'service': [{'name': 'ALL'}],
+                        'nat': 'enable',
+                        'fsso': 'enable',
+                        'wsso': 'disable',
+                        'rsso': 'enable'}
+            rc=device.create_firewall_policy(id,repr(payload))
+            print (rc)
         else:
              print ("Unkown Object",row)
 rc=device.get_firewall_address("test1")

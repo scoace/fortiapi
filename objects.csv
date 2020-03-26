@@ -3,3 +3,4 @@ address,test2,11.13.13.2 255.255.255.255
 route,port3,12.3.4.0 255.255.255.0,10.3.3.10,
 address_group,mygroup,test1,test2
 interface,port3,10.5.6.7 255.255.255.240
+policy,500,port2,port3,test1,test2,accept
